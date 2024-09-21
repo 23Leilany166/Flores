@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para las niñas mas hermosas</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            position: absolute; /* Cambiado a posición absoluta */
+            top: 20px; /* Colocar el botón cerca de la parte superior */
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+
+<button id="startButton">Presiona aquí</button>
+
+<script>
+    let showFlowers = false;
+
+    function setup() {
+        createCanvas(800, 800);
+        background(0);
+        let button = select('#startButton');
+        button.mousePressed(startDrawing);
+    }
+
+    function startDrawing() {
+        showFlowers = true;
+    }
+
+    function draw() {
+        if (showFlowers) {
+            background(0);
+            drawStars(50);
+            drawFlower(width / 2, height / 2 - 50);
+            drawStem(width / 2, height / 2 + 50);
+
+            fill(255);
+            textAlign(CENTER);
+            textSize(24);
+            text("Las extraño", width / 2, 190); // Texto arriba
+            textSize(16);
+            text("Para las niñas más bonitas del universo", width / 2,750); // Texto abajo
+        }
+    }
+
+    function drawFlower(x, y) {
+        for (let i = 0; i < 16; i++) {
+            for (let j = 0; j < 18; j++) {
+                let c = color(255, 255, 0); // Color amarillo para los pétalos
+                fill(c);
+                noStroke();
+                push();
+                translate(x, y);
+                rotate(TWO_PI / 16 * i);
+                ellipse(0, -j * 6, 30, 90);
+                pop();
+            }
+        }
+        fill(139, 69, 19); // Color marrón para el centro
+        ellipse(x, y, 80, 80);
+    }
+
+    function drawStem(x, y) {
+        stroke(0, 102, 0); // Color verde para el tallo
+        strokeWeight(12);
+        line(x, y, x, y + 200);
+        strokeWeight(2);
+        fill(0, 102, 0); // Color verde para la hoja
+        beginShape();
+        vertex(x, y + 200);
+        vertex(x - 50, y + 250);
+        vertex(x + 50, y + 250);
+        endShape(CLOSE);
+    }
+
+    function drawStars(amount) {
+        for (let i = 0; i < amount; i++) {
+            let x = random(width);
+            let y = random(height);
+            fill(255);
+            beginShape();
+            for (let j = 0; j < 5; j++) {
+                vertex(x + cos(TWO_PI / 5 * j) * 10, y + sin(TWO_PI / 5 * j) * 10);
+                vertex(x + cos(TWO_PI / 5 * j + PI / 5) * 5, y + sin(TWO_PI / 5 * j + PI / 5) * 5);
+            }
+            endShape(CLOSE);
+        }
+    }
+</script>
+</body>
+</html>
